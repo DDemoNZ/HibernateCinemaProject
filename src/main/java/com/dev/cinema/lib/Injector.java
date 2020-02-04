@@ -59,6 +59,50 @@ public class Injector {
         return newInstanceOfClass;
     }
 
+    private static List<Class> getClasses(String packageName)
+            throws IOException, ClassNotFoundException {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        if (classLoader == null) {
+            throw new RuntimeException("Class loader is null");
+        }
+        String path = packageName.replace('.', '/');
+        Enumeration<URL> resources = classLoader.getResources(path);
+        List<File> dirs = new ArrayList<>();
+        while (resources.hasMoreElements()) {
+            URL resource = resources.nextElement();
+            dirs.add(new File(resource.getFile()));
+        }
+        ArrayList<Class> classes = new ArrayList<>();
+        for (File directory : dirs) {
+            classes.addAll(findClasses(directory, packageName));
+        }
+        return classes;
+    }
+
+    private static List<Class> findClasses(File directory, String packageName)
+            throws ClassNotFoundException {
+        List<Class> classes = new ArrayList<>();
+        if (!directory.exists()) {
+            return classes;
+        }
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    if (file.getName().contains(".")) {
+                        throw new RuntimeException("File name shouldn't consist point.");
+                    }
+                    classes.addAll(findClasses(file, packageName + "."
+                            + file.getName()));
+                } else if (file.getName().endsWith(".class")) {
+                    classes.add(Class.forName(packageName + '.'
+                            + file.getName().substring(0, file.getName().length() - 6)));
+                }
+            }
+        }
+        return classes;
+    }
+
     private Class findClassExtendingInterface(Class certainInterface) {
         for (Class clazz : classes) {
             Class[] interfaces = clazz.getInterfaces();
@@ -114,66 +158,5 @@ public class Injector {
             throw new RuntimeException(classToInject.getClass().getName()
                     + " hasn't valid annotation (Dao or Service)");
         }
-    }
-
-    /**
-     * Scans all classes accessible from the context class loader which
-     * belong to the given package and subpackages.
-     *
-     * @param packageName The base package
-     * @return The classes
-     * @throws ClassNotFoundException if the class cannot be located
-     * @throws IOException            if I/O errors occur
-     */
-    private static List<Class> getClasses(String packageName)
-            throws IOException, ClassNotFoundException {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        if (classLoader == null) {
-            throw new RuntimeException("Class loader is null");
-        }
-        String path = packageName.replace('.', '/');
-        Enumeration<URL> resources = classLoader.getResources(path);
-        List<File> dirs = new ArrayList<>();
-        while (resources.hasMoreElements()) {
-            URL resource = resources.nextElement();
-            dirs.add(new File(resource.getFile()));
-        }
-        ArrayList<Class> classes = new ArrayList<>();
-        for (File directory : dirs) {
-            classes.addAll(findClasses(directory, packageName));
-        }
-        return classes;
-    }
-
-    /**
-     * Recursive method used to find all classes in a given directory and subdirs.
-     *
-     * @param directory   The base directory
-     * @param packageName The package name for classes found inside the base directory
-     * @return The classes
-     * @throws ClassNotFoundException if the class cannot be located
-     */
-    private static List<Class> findClasses(File directory, String packageName)
-            throws ClassNotFoundException {
-        List<Class> classes = new ArrayList<>();
-        if (!directory.exists()) {
-            return classes;
-        }
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    if (file.getName().contains(".")) {
-                        throw new RuntimeException("File name shouldn't consist point.");
-                    }
-                    classes.addAll(findClasses(file, packageName + "."
-                            + file.getName()));
-                } else if (file.getName().endsWith(".class")) {
-                    classes.add(Class.forName(packageName + '.'
-                            + file.getName().substring(0, file.getName().length() - 6)));
-                }
-            }
-        }
-        return classes;
     }
 }
