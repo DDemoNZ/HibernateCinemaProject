@@ -55,7 +55,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             LOGGER.error("Can't find available sessions in DB", e);
-            throw new RuntimeException("an't find available sessions in DB");
+            throw new RuntimeException("Can't find available sessions in DB");
         }
     }
 }
