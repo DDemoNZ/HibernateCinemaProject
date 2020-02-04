@@ -7,7 +7,7 @@ public class HibernateUtil {
 
     private static SessionFactory sessionFactory = initSessionFactory();
 
-    public HibernateUtil() {
+    private HibernateUtil() {
     }
 
     public static SessionFactory getSessionFactory() {
