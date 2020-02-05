@@ -5,7 +5,6 @@ import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.User;
 import com.dev.cinema.util.HibernateUtil;
 
-import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -18,8 +17,6 @@ import org.hibernate.Transaction;
 
 @Dao
 public class UserDaoImpl implements UserDao {
-
-    private static final Logger LOGGER = LogManager.getLogger(UserDaoImpl.class);
 
     @Override
     public User add(User user) {
@@ -46,10 +43,7 @@ public class UserDaoImpl implements UserDao {
             Root<User> userRoot = criteriaQuery.from(User.class);
             Predicate emailPredicate = criteriaBuilder.equal(userRoot.get("email"), email);
             criteriaQuery.select(userRoot).where(emailPredicate);
-            return session.createQuery(criteriaQuery).getSingleResult();
-        } catch (NoResultException e) {
-            LOGGER.warn("Can't find user by email", e);
-            return null;
+            return session.createQuery(criteriaQuery).uniqueResult();
         } catch (Exception e) {
             throw new RuntimeException("Can't find user by email", e);
         }
