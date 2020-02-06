@@ -56,7 +56,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             shoppingCart.setTickets(tickets);
             return shoppingCart;
         } catch (Exception e) {
-            throw new RuntimeException("Can't get user from DB", e);
+            throw new RuntimeException("Can't get shopping cart by user from DB", e);
         }
     }
 
