@@ -22,13 +22,13 @@ public class MovieDaoImpl implements MovieDao {
             Long movieId = (Long) session.save(movie);
             transaction.commit();
             movie.setId(movieId);
+            return movie;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't add Movie entity to database", e);
         }
-        return movie;
     }
 
     @Override
