@@ -60,11 +60,7 @@ public class Main {
         AuthenticationService authenticationService = (AuthenticationService) injector
                 .getInstance(AuthenticationService.class);
 
-        try {
-            authenticationService.register("email@email.com", "psw");
-        } catch (AuthenticationException e) {
-            System.out.println(e.getMessage());
-        }
+        authenticationService.register("email@email.com", "psw");
         System.out.println(userService.findByEmail("email@email.com"));
 
         System.out.println("_______________________________________________");
