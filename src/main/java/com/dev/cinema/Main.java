@@ -67,8 +67,9 @@ public class Main {
 
         System.out.println("_______________________________________________");
         System.out.println("Try to signIn with true pass and email");
+        User signedUser = null;
         try {
-            authenticationService.login("email@gmail.com", "psw");
+            signedUser = authenticationService.login("email@email.com", "psw");
             System.out.println("True email and login");
         } catch (AuthenticationException e) {
             System.out.println(e.getMessage());
@@ -85,9 +86,9 @@ public class Main {
         System.out.println("______________________________________________________________");
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
-        shoppingCartService.addSession(movieSession, userService.findByEmail("email@email.com"));
+        shoppingCartService.addSession(movieSession, signedUser);
         ShoppingCart userSc = shoppingCartService
-                .getByUser(userService.findByEmail("email@email.com"));
+                .getByUser(signedUser);
         System.out.println(userSc);
     }
 }
