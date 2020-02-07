@@ -10,6 +10,7 @@ import com.dev.cinema.util.HibernateUtil;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -39,22 +40,13 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     public ShoppingCart getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<ShoppingCart> criteriaQuery = criteriaBuilder
-                    .createQuery(ShoppingCart.class);
+            CriteriaQuery<ShoppingCart> criteriaQuery =
+                    criteriaBuilder.createQuery(ShoppingCart.class);
             Root<ShoppingCart> shoppingCartRoot = criteriaQuery.from(ShoppingCart.class);
+            shoppingCartRoot.fetch("tickets", JoinType.LEFT);
             criteriaQuery.select(shoppingCartRoot)
                     .where(criteriaBuilder.equal(shoppingCartRoot.get("user"), user));
-            ShoppingCart shoppingCart = session.createQuery(criteriaQuery).uniqueResult();
-
-            CriteriaBuilder criteriaBuilder1 = session.getCriteriaBuilder();
-            CriteriaQuery<Ticket> criteriaQuery1 = criteriaBuilder.createQuery(Ticket.class);
-            Root<Ticket> ticketRoot = criteriaQuery1.from(Ticket.class);
-            criteriaQuery1.select(ticketRoot)
-                    .where(criteriaBuilder1.equal(ticketRoot.get("user"), user));
-            List<Ticket> tickets = session.createQuery(criteriaQuery1).getResultList();
-
-            shoppingCart.setTickets(tickets);
-            return shoppingCart;
+            return session.createQuery(criteriaQuery).uniqueResult();
         } catch (Exception e) {
             throw new RuntimeException("Can't get shopping cart by user from DB", e);
         }
