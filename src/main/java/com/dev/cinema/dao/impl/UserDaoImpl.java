@@ -7,7 +7,6 @@ import com.dev.cinema.util.HibernateUtil;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -24,13 +23,13 @@ public class UserDaoImpl implements UserDao {
             Long userId = (Long) session.save(user);
             transaction.commit();
             user.setId(userId);
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't add user to DB", e);
         }
-        return user;
     }
 
     @Override

@@ -22,13 +22,13 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             Long cinemaHallId = (Long) session.save(cinemaHall);
             transaction.commit();
             cinemaHall.setId(cinemaHallId);
+            return cinemaHall;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't add cinema hall entity to DB");
         }
-        return cinemaHall;
     }
 
     @Override

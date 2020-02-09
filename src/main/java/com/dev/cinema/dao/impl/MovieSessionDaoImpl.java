@@ -26,13 +26,13 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             Long movieSessionId = (Long) session.save(movieSession);
             transaction.commit();
             movieSession.setId(movieSessionId);
+            return movieSession;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't add movie session to DB");
         }
-        return movieSession;
     }
 
     @Override
