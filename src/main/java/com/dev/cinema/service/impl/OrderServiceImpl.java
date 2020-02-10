@@ -1,7 +1,6 @@
 package com.dev.cinema.service.impl;
 
 import com.dev.cinema.dao.OrderDao;
-import com.dev.cinema.dao.ShoppingCartDao;
 import com.dev.cinema.lib.Inject;
 import com.dev.cinema.lib.Service;
 import com.dev.cinema.model.Orders;
@@ -16,9 +15,6 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     @Inject
-    private ShoppingCartDao shoppingCartDao;
-
-    @Inject
     private OrderDao orderDao;
 
     @Inject
@@ -26,10 +22,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Orders completeOrder(User user) {
-        ShoppingCart shoppingCartByUser = shoppingCartDao.getByUser(user);
+        ShoppingCart shoppingCartByUser = shoppingCartService.getByUser(user);
         Orders order = new Orders();
         order.setTickets(shoppingCartByUser.getTickets());
         order.setUser(user);
+
         shoppingCartService.clear(shoppingCartByUser);
         return orderDao.add(order);
     }

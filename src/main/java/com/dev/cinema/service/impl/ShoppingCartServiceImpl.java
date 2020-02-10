@@ -10,6 +10,8 @@ import com.dev.cinema.model.Ticket;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.ShoppingCartService;
 
+import java.util.Collections;
+
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
@@ -45,8 +47,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void clear(ShoppingCart shoppingCart) {
-        ShoppingCart shoppingCartByUser = shoppingCartDao.getByUser(shoppingCart.getUser());
-        shoppingCartByUser.getTickets().clear();
-        shoppingCartDao.update(shoppingCartByUser);
+        shoppingCart.setTickets(Collections.emptyList());
+        shoppingCartDao.update(shoppingCart);
     }
 }
