@@ -1,7 +1,7 @@
 package com.dev.cinema.controllers;
 
 import com.dev.cinema.model.User;
-import com.dev.cinema.model.dto.request.UserRequestDto;
+import com.dev.cinema.model.dto.request.UserAuthenticateRequestDto;
 import com.dev.cinema.model.dto.response.UserResponseDto;
 import com.dev.cinema.service.AuthenticationService;
 
@@ -23,10 +23,11 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public UserResponseDto login(@RequestBody UserRequestDto userRequestDto) {
+    public UserResponseDto login(@RequestBody UserAuthenticateRequestDto
+                                             userAuthenticateRequestDto) {
         try {
-            User user = authenticationService.login(userRequestDto.getEmail(),
-                    userRequestDto.getPassword());
+            User user = authenticationService.login(userAuthenticateRequestDto.getEmail(),
+                    userAuthenticateRequestDto.getPassword());
             UserResponseDto userResponseDto = new UserResponseDto();
             userResponseDto.setEmail(user.getEmail());
             return userResponseDto;
@@ -36,9 +37,10 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/register")
-    public UserResponseDto register(@RequestBody UserRequestDto userRequestDto) {
-        User user = authenticationService.register(userRequestDto.getEmail(),
-                userRequestDto.getPassword());
+    public UserResponseDto register(@RequestBody UserAuthenticateRequestDto
+                                                userAuthenticateRequestDto) {
+        User user = authenticationService.register(userAuthenticateRequestDto.getEmail(),
+                userAuthenticateRequestDto.getPassword());
         UserResponseDto userResponseDto = new UserResponseDto();
         userResponseDto.setEmail(user.getEmail());
         return userResponseDto;
