@@ -4,8 +4,17 @@ import java.util.List;
 
 public class OrdersResponseDto {
 
+    private Long orderId;
     private Long userId;
     private List<TicketResponseDto> tickets;
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
 
     public List<TicketResponseDto> getTickets() {
         return tickets;

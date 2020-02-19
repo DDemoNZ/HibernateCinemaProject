@@ -46,6 +46,7 @@ public class OrderController {
 
     private OrdersResponseDto getOrdersResponseDto(Orders orders) {
         OrdersResponseDto ordersResponseDto = new OrdersResponseDto();
+        ordersResponseDto.setOrderId(orders.getId());
         ordersResponseDto.setTickets(getListTicketsResponseDto(orders));
         ordersResponseDto.setUserId(orders.getUser().getId());
         return ordersResponseDto;
