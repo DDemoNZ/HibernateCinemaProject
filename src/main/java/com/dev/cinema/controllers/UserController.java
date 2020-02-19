@@ -31,7 +31,7 @@ public class UserController {
         return getUserResponseDto(user);
     }
 
-    @GetMapping("/by_email")
+    @GetMapping("/get_by_email")
     public UserResponseDto getUserByEmail(@RequestParam String email) {
         return getUserResponseDto(userService.findByEmail(email));
     }
