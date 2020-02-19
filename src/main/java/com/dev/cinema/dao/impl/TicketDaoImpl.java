@@ -6,14 +6,16 @@ import com.dev.cinema.model.Ticket;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class TicketDaoImpl implements TicketDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
+
+    public TicketDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Ticket add(Ticket ticket) {
@@ -29,6 +31,15 @@ public class TicketDaoImpl implements TicketDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't add ticket to DB", e);
+        }
+    }
+
+    @Override
+    public Ticket getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Ticket.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get user by id " + id);
         }
     }
 }

@@ -6,14 +6,21 @@ import com.dev.cinema.service.CinemaHallService;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CinemaHallServiceImpl implements CinemaHallService {
 
-    @Autowired
-    private CinemaHallDao cinemaHallDao;
+    private final CinemaHallDao cinemaHallDao;
+
+    public CinemaHallServiceImpl(CinemaHallDao cinemaHallDao) {
+        this.cinemaHallDao = cinemaHallDao;
+    }
+
+    @Override
+    public CinemaHall getById(Long id) {
+        return cinemaHallDao.getById(id);
+    }
 
     @Override
     public CinemaHall add(CinemaHall cinemaHall) {

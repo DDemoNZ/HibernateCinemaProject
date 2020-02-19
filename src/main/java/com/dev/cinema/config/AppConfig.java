@@ -1,13 +1,5 @@
 package com.dev.cinema.config;
 
-import com.dev.cinema.model.CinemaHall;
-import com.dev.cinema.model.Movie;
-import com.dev.cinema.model.MovieSession;
-import com.dev.cinema.model.Orders;
-import com.dev.cinema.model.ShoppingCart;
-import com.dev.cinema.model.Ticket;
-import com.dev.cinema.model.User;
-
 import java.util.Properties;
 import javax.sql.DataSource;
 
@@ -51,13 +43,7 @@ public class AppConfig {
         properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         properties.put("hibernate.dialect", environment.getProperty("hibernate.dialect"));
         sessionFactoryBean.setHibernateProperties(properties);
-        sessionFactoryBean.setAnnotatedClasses(CinemaHall.class);
-        sessionFactoryBean.setAnnotatedClasses(Movie.class);
-        sessionFactoryBean.setAnnotatedClasses(MovieSession.class);
-        sessionFactoryBean.setAnnotatedClasses(Orders.class);
-        sessionFactoryBean.setAnnotatedClasses(ShoppingCart.class);
-        sessionFactoryBean.setAnnotatedClasses(Ticket.class);
-        sessionFactoryBean.setAnnotatedClasses(User.class);
+        sessionFactoryBean.setPackagesToScan("com.dev.cinema.model");
         return sessionFactoryBean;
     }
 }

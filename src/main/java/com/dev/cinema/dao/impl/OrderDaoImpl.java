@@ -13,14 +13,16 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
+
+    public OrderDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Orders add(Orders order) {
@@ -51,6 +53,15 @@ public class OrderDaoImpl implements OrderDao {
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get user's orders from DB", e);
+        }
+    }
+
+    @Override
+    public Orders getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Orders.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get user by id " + id);
         }
     }
 }

@@ -10,4 +10,6 @@ public interface OrderService {
     Orders completeOrder(User user);
 
     List<Orders> getOrderHistory(User user);
+
+    Orders getById(Long id);
 }
