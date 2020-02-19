@@ -65,6 +65,7 @@ public class ShoppingCartController {
         List<TicketResponseDto> ticketsRespList = new ArrayList<>();
         for (Ticket ticket : tickets) {
             TicketResponseDto ticketResponseDto = new TicketResponseDto();
+            ticketResponseDto.setTicketId(ticket.getId());
             ticketResponseDto.setMovieSessionId(ticket.getMovieSession().getId());
             ticketResponseDto.setUserId(ticket.getUser().getId());
             ticketsRespList.add(ticketResponseDto);
