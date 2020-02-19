@@ -7,6 +7,8 @@ import com.dev.cinema.service.AuthenticationService;
 
 import javax.security.sasl.AuthenticationException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping
 public class AuthenticationController {
+
+    private final static Logger LOGGER = LogManager.getLogger(AuthenticationController.class);
 
     private final AuthenticationService authenticationService;
 
@@ -28,8 +32,10 @@ public class AuthenticationController {
         try {
             authenticationService.login(userAuthenticateRequestDto.getEmail(),
                     userAuthenticateRequestDto.getPassword());
+            LOGGER.warn("Login success");
             return "Success login";
         } catch (AuthenticationException e) {
+            LOGGER.error("Invalid login or password. Access denied.", e);
             return "Invalid login or password";
         }
     }
