@@ -46,7 +46,7 @@ public class MovieSessionController {
         movieSessionService.add(movieSession);
     }
 
-    @GetMapping("/get_all")
+    @GetMapping("/get_all_available_sessions")
     public List<MovieSessionResponseDto> getAllAvailableSessions(
             @RequestParam Long movieId,
             @RequestParam String showTime) {
