@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping
 public class AuthenticationController {
 
-    private final static Logger LOGGER = LogManager.getLogger(AuthenticationController.class);
-
+    private static final Logger LOGGER = LogManager.getLogger(AuthenticationController.class);
     private final AuthenticationService authenticationService;
 
     public AuthenticationController(AuthenticationService authenticationService) {
@@ -28,7 +27,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public String login(@RequestBody UserAuthenticateRequestDto
-                                             userAuthenticateRequestDto) {
+                                userAuthenticateRequestDto) {
         try {
             authenticationService.login(userAuthenticateRequestDto.getEmail(),
                     userAuthenticateRequestDto.getPassword());
@@ -42,7 +41,7 @@ public class AuthenticationController {
 
     @PostMapping(value = "/register")
     public UserResponseDto register(@RequestBody UserAuthenticateRequestDto
-                                                userAuthenticateRequestDto) {
+                                            userAuthenticateRequestDto) {
         User user = authenticationService.register(userAuthenticateRequestDto.getEmail(),
                 userAuthenticateRequestDto.getPassword());
         UserResponseDto userResponseDto = new UserResponseDto();
