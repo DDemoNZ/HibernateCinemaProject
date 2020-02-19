@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/authenticate")
+@RequestMapping
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -23,16 +23,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public UserResponseDto login(@RequestBody UserAuthenticateRequestDto
+    public String login(@RequestBody UserAuthenticateRequestDto
                                              userAuthenticateRequestDto) {
         try {
-            User user = authenticationService.login(userAuthenticateRequestDto.getEmail(),
+            authenticationService.login(userAuthenticateRequestDto.getEmail(),
                     userAuthenticateRequestDto.getPassword());
-            UserResponseDto userResponseDto = new UserResponseDto();
-            userResponseDto.setEmail(user.getEmail());
-            return userResponseDto;
+            return "Success login";
         } catch (AuthenticationException e) {
-            throw new RuntimeException("Invalid login or password");
+            return "Invalid login or password";
         }
     }
 

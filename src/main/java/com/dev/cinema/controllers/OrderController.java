@@ -7,7 +7,6 @@ import com.dev.cinema.model.dto.response.TicketResponseDto;
 import com.dev.cinema.service.OrderService;
 import com.dev.cinema.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,14 +53,16 @@ public class OrderController {
 
     private List<TicketResponseDto> getListTicketsResponseDto(Orders orders) {
         List<Ticket> tickets = orders.getTickets();
-        List<TicketResponseDto> ticketsRespList = new ArrayList<>();
-        for (Ticket ticket : tickets) {
-            TicketResponseDto ticketResponseDto = new TicketResponseDto();
-            ticketResponseDto.setTicketId(ticket.getId());
-            ticketResponseDto.setMovieSessionId(ticket.getMovieSession().getId());
-            ticketResponseDto.setUserId(ticket.getUser().getId());
-            ticketsRespList.add(ticketResponseDto);
-        }
-        return ticketsRespList;
+        return tickets.stream()
+                .map(this::getTicketResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    private TicketResponseDto getTicketResponseDto(Ticket ticket) {
+        TicketResponseDto ticketResponseDto = new TicketResponseDto();
+        ticketResponseDto.setTicketId(ticket.getId());
+        ticketResponseDto.setMovieSessionId(ticket.getMovieSession().getId());
+        ticketResponseDto.setUserId(ticket.getUser().getId());
+        return ticketResponseDto;
     }
 }

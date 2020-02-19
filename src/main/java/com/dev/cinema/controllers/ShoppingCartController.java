@@ -11,8 +11,8 @@ import com.dev.cinema.service.MovieSessionService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,14 +62,16 @@ public class ShoppingCartController {
 
     private List<TicketResponseDto> getListTicketsResponseDto(ShoppingCart shoppingCart) {
         List<Ticket> tickets = shoppingCart.getTickets();
-        List<TicketResponseDto> ticketsRespList = new ArrayList<>();
-        for (Ticket ticket : tickets) {
-            TicketResponseDto ticketResponseDto = new TicketResponseDto();
-            ticketResponseDto.setTicketId(ticket.getId());
-            ticketResponseDto.setMovieSessionId(ticket.getMovieSession().getId());
-            ticketResponseDto.setUserId(ticket.getUser().getId());
-            ticketsRespList.add(ticketResponseDto);
-        }
-        return ticketsRespList;
+        return tickets.stream()
+                .map(this::getTicketResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    private TicketResponseDto getTicketResponseDto(Ticket ticket) {
+        TicketResponseDto ticketResponseDto = new TicketResponseDto();
+        ticketResponseDto.setTicketId(ticket.getId());
+        ticketResponseDto.setMovieSessionId(ticket.getMovieSession().getId());
+        ticketResponseDto.setUserId(ticket.getUser().getId());
+        return ticketResponseDto;
     }
 }
