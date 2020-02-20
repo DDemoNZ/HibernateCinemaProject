@@ -39,7 +39,7 @@ public class ShoppingCartController {
 
     @PostMapping("/add_movie_session")
     public ShoppingCartResponseDto addMovieSession(@RequestBody ShoppingCartRequestDto
-                                                          shoppingCartRequestDto) {
+                                                           shoppingCartRequestDto) {
         MovieSession movieSession = movieSessionService.getById(shoppingCartRequestDto
                 .getMovieSessionId());
         User user = userService.getById(shoppingCartRequestDto.getUserId());
