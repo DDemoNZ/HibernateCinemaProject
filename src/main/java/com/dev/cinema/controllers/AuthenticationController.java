@@ -31,7 +31,7 @@ public class AuthenticationController {
         try {
             authenticationService.login(userAuthenticateRequestDto.getEmail(),
                     userAuthenticateRequestDto.getPassword());
-            LOGGER.warn("Login success");
+            LOGGER.debug("Login success");
             return "Success login";
         } catch (AuthenticationException e) {
             LOGGER.error("Invalid login or password. Access denied.", e);
