@@ -10,17 +10,18 @@ import com.dev.cinema.service.ShoppingCartService;
 
 import java.util.Collections;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
-    @Autowired
-    private ShoppingCartDao shoppingCartDao;
+    private final ShoppingCartDao shoppingCartDao;
+    private final TicketDao ticketDao;
 
-    @Autowired
-    private TicketDao ticketDao;
+    public ShoppingCartServiceImpl(ShoppingCartDao shoppingCartDao, TicketDao ticketDao) {
+        this.shoppingCartDao = shoppingCartDao;
+        this.ticketDao = ticketDao;
+    }
 
     @Override
     public void addSession(MovieSession movieSession, User user) {
@@ -50,5 +51,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public void clear(ShoppingCart shoppingCart) {
         shoppingCart.setTickets(Collections.emptyList());
         shoppingCartDao.update(shoppingCart);
+    }
+
+    @Override
+    public ShoppingCart getById(Long id) {
+        return shoppingCartDao.getById(id);
     }
 }

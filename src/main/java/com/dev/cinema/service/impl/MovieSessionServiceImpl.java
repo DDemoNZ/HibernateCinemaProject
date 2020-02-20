@@ -7,14 +7,16 @@ import com.dev.cinema.service.MovieSessionService;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MovieSessionServiceImpl implements MovieSessionService {
 
-    @Autowired
-    private MovieSessionDao movieSessionDao;
+    private final MovieSessionDao movieSessionDao;
+
+    public MovieSessionServiceImpl(MovieSessionDao movieSessionDao) {
+        this.movieSessionDao = movieSessionDao;
+    }
 
     @Override
     public MovieSession add(MovieSession session) {
@@ -24,5 +26,10 @@ public class MovieSessionServiceImpl implements MovieSessionService {
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         return movieSessionDao.findAvailableSessions(movieId, date);
+    }
+
+    @Override
+    public MovieSession getById(Long id) {
+        return movieSessionDao.getById(id);
     }
 }

@@ -9,17 +9,18 @@ import com.dev.cinema.service.ShoppingCartService;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
-    private OrderDao orderDao;
+    private final OrderDao orderDao;
+    private final ShoppingCartService shoppingCartService;
 
-    @Autowired
-    private ShoppingCartService shoppingCartService;
+    public OrderServiceImpl(OrderDao orderDao, ShoppingCartService shoppingCartService) {
+        this.orderDao = orderDao;
+        this.shoppingCartService = shoppingCartService;
+    }
 
     @Override
     public Orders completeOrder(User user) {
@@ -35,5 +36,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Orders> getOrderHistory(User user) {
         return orderDao.getUserOrderHistory(user);
+    }
+
+    @Override
+    public Orders getById(Long id) {
+        return orderDao.getById(id);
     }
 }

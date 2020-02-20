@@ -10,4 +10,6 @@ public interface OrderDao {
     Orders add(Orders order);
 
     List<Orders> getUserOrderHistory(User user);
+
+    Orders getById(Long id);
 }

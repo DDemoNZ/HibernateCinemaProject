@@ -9,20 +9,21 @@ import com.dev.cinema.util.HashUtil;
 
 import javax.security.sasl.AuthenticationException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
+    private final UserService userService;
+    private final ShoppingCartService shoppingCartService;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ShoppingCartService shoppingCartService;
+    public AuthenticationServiceImpl(UserDao userDao, UserService userService,
+                                     ShoppingCartService shoppingCartService) {
+        this.userDao = userDao;
+        this.userService = userService;
+        this.shoppingCartService = shoppingCartService;
+    }
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
