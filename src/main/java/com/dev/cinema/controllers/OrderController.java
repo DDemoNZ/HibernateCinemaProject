@@ -36,7 +36,7 @@ public class OrderController {
         return getOrdersResponseDto(orders);
     }
 
-    @GetMapping("/order-history/{user_id}")
+    @GetMapping("/{user_id}")
     public List<OrdersResponseDto> getOrdersHistory(@PathVariable("user_id") Long userId) {
         List<Orders> orderHistory = orderService.getOrderHistory(userService.getById(userId));
         return orderHistory.stream().map(this::getOrdersResponseDto)
