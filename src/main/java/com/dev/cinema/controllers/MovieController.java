@@ -24,7 +24,7 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public MovieResponseDto addMovie(@RequestBody MovieRequestDto movieRequestDto) {
         Movie movie = new Movie();
         movie.setDescription(movieRequestDto.getDescription());
@@ -33,7 +33,7 @@ public class MovieController {
         return getMovieResponseDto(movie);
     }
 
-    @GetMapping("/get_all")
+    @GetMapping
     public List<MovieResponseDto> getAllMovies() {
         return movieService.getAll().stream()
                 .map(this::getMovieResponseDto)

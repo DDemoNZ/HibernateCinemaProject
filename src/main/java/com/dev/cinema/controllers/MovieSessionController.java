@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/movie_session")
+@RequestMapping("/movie-session")
 public class MovieSessionController {
 
     private final MovieSessionService movieSessionService;
@@ -35,7 +35,7 @@ public class MovieSessionController {
         this.cinemaHallService = cinemaHallService;
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public void addMovieSession(@RequestBody MovieSessionRequestDto movieSessionRequestDto) {
         MovieSession movieSession = new MovieSession();
         movieSession.setMovie(movieService.getById(movieSessionRequestDto.getMovieId()));
@@ -46,7 +46,7 @@ public class MovieSessionController {
         movieSessionService.add(movieSession);
     }
 
-    @GetMapping("/get_all_available_sessions")
+    @GetMapping("/available-sessions")
     public List<MovieSessionResponseDto> getAllAvailableSessions(
             @RequestParam Long movieId,
             @RequestParam String showTime) {
