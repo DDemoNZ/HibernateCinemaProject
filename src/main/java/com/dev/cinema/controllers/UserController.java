@@ -22,7 +22,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public UserResponseDto addUser(@RequestBody UserRequestDto userRequestDto) {
         User user = new User();
         user.setEmail(userRequestDto.getEmail());
@@ -31,7 +31,7 @@ public class UserController {
         return getUserResponseDto(user);
     }
 
-    @GetMapping("/get_by_email")
+    @GetMapping("/get-by-email")
     public UserResponseDto getUserByEmail(@RequestParam String email) {
         return getUserResponseDto(userService.findByEmail(email));
     }
