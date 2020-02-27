@@ -8,10 +8,10 @@ import com.dev.cinema.service.UserService;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-@Controller
-public class InitializationController  {
+@Component
+public class InitializationController {
 
     private UserService userService;
     private RoleService roleService;

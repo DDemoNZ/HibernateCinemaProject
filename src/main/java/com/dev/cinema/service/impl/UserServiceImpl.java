@@ -29,4 +29,5 @@ public class UserServiceImpl implements UserService {
     public User getById(Long id) {
         return userDao.getById(id);
     }
+
 }

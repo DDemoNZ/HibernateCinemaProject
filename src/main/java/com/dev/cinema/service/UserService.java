@@ -8,4 +8,5 @@ public interface UserService {
     User findByEmail(String email);
 
     User getById(Long id);
+
 }

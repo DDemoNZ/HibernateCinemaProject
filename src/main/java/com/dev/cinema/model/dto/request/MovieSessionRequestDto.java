@@ -1,9 +1,15 @@
 package com.dev.cinema.model.dto.request;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+
 public class MovieSessionRequestDto {
 
+    @Min(value = 1, message = "Incorrect movie_id")
     private Long movieId;
+    @Min(value = 1, message = "Incorrect cinema_hall_id")
     private Long cinemaHallId;
+    @NotEmpty(message = "Show_time must not be empty")
     private String showTime;
 
     public Long getMovieId() {

@@ -1,8 +1,12 @@
 package com.dev.cinema.model.dto.request;
 
+import javax.validation.constraints.NotEmpty;
+
 public class MovieRequestDto {
 
+    @NotEmpty(message = "Title of movie must not be empty")
     private String title;
+    @NotEmpty(message = "Description of movie must not be empty")
     private String description;
 
     public String getTitle() {

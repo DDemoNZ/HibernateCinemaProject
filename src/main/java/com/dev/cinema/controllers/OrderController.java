@@ -2,6 +2,7 @@ package com.dev.cinema.controllers;
 
 import com.dev.cinema.model.Orders;
 import com.dev.cinema.model.Ticket;
+import com.dev.cinema.model.dto.request.UserRequestDto;
 import com.dev.cinema.model.dto.response.OrdersResponseDto;
 import com.dev.cinema.model.dto.response.TicketResponseDto;
 import com.dev.cinema.service.OrderService;
@@ -9,9 +10,10 @@ import com.dev.cinema.service.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,15 +32,17 @@ public class OrderController {
     }
 
     @PostMapping("/complete")
-    public OrdersResponseDto completeOrder(@RequestParam Long userId) {
-        Orders orders = orderService.completeOrder(userService.getById(userId));
-
+    public OrdersResponseDto completeOrder(@RequestParam @Valid Long userId,
+                                           @Valid Authentication authentication) {
+        Orders orders = orderService.completeOrder(userService
+                .findByEmail(authentication.getName()));
         return getOrdersResponseDto(orders);
     }
 
-    @GetMapping("/{user_id}")
-    public List<OrdersResponseDto> getOrdersHistory(@PathVariable("user_id") Long userId) {
-        List<Orders> orderHistory = orderService.getOrderHistory(userService.getById(userId));
+    @GetMapping()
+    public List<OrdersResponseDto> getOrdersHistory(@RequestParam @Valid UserRequestDto userRequestDto) {
+        List<Orders> orderHistory =
+                orderService.getOrderHistory(userService.findByEmail(userRequestDto.getEmail()));
         return orderHistory.stream().map(this::getOrdersResponseDto)
                 .collect(Collectors.toList());
     }
