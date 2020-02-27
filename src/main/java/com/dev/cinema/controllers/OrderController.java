@@ -40,7 +40,8 @@ public class OrderController {
     }
 
     @GetMapping()
-    public List<OrdersResponseDto> getOrdersHistory(@RequestParam @Valid UserRequestDto userRequestDto) {
+    public List<OrdersResponseDto> getOrdersHistory(@RequestParam @Valid UserRequestDto
+                                                                userRequestDto) {
         List<Orders> orderHistory =
                 orderService.getOrderHistory(userService.findByEmail(userRequestDto.getEmail()));
         return orderHistory.stream().map(this::getOrdersResponseDto)
