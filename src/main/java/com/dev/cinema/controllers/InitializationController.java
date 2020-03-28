@@ -4,7 +4,6 @@ import com.dev.cinema.model.Role;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.RoleService;
 import com.dev.cinema.service.UserService;
-
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,14 +35,14 @@ public class InitializationController {
         roleService.add(userRole);
 
         User user = new User();
-        user.setEmail("a");
-        user.setPassword(passwordEncoder.encode("a"));
+        user.setEmail("user");
+        user.setPassword(passwordEncoder.encode("user"));
         user.getRoles().add(roleService.getByRoleName("USER"));
         userService.add(user);
 
         User admin = new User();
-        admin.setEmail("b");
-        admin.setPassword(passwordEncoder.encode("b"));
+        admin.setEmail("admin");
+        admin.setPassword(passwordEncoder.encode("admin"));
         admin.getRoles().add(roleService.getByRoleName("ADMIN"));
         userService.add(admin);
 

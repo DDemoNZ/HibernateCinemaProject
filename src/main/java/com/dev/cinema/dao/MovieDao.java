@@ -1,7 +1,6 @@
 package com.dev.cinema.dao;
 
 import com.dev.cinema.model.Movie;
-
 import java.util.List;
 
 public interface MovieDao {
@@ -11,4 +10,6 @@ public interface MovieDao {
     List<Movie> getAll();
 
     Movie getById(Long id);
+
+    Movie update(Movie movie);
 }

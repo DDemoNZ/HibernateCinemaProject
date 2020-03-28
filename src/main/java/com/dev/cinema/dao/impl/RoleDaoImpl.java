@@ -2,11 +2,9 @@ package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.RoleDao;
 import com.dev.cinema.model.Role;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

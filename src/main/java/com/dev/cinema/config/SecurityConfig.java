@@ -2,6 +2,7 @@ package com.dev.cinema.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,13 +33,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/movie-session/add", "/movie/add", "/user",
-                        "/shopping-cart")
+                .antMatchers(HttpMethod.POST, "/movie-sessions/**",
+                        "/movies/*", "/users/**", "/shopping-carts/**",
+                        "/cinema-halls/**")
                 .hasRole("ADMIN")
-                .antMatchers("/orders/complete", "/orders", "/movie-session/available-sessions",
-                        "/movie/available")
+                .antMatchers(HttpMethod.GET, "/movie-sessions/**",
+                        "/movies/*", "/users/**", "/shopping-carts/**",
+                        "/cinema-halls/**")
+                .hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/movie-sessions/**",
+                        "/movies/**")
                 .hasRole("USER")
-                .antMatchers("/register", "/login, /Hello").permitAll()
+                .antMatchers("/orders/**").hasRole("USER")
+                .antMatchers("/register", "/login, /hello").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

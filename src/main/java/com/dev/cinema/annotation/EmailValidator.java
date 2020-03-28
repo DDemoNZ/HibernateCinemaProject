@@ -9,7 +9,6 @@ public class EmailValidator implements ConstraintValidator<EmailValid, String> {
 
     @Override
     public void initialize(EmailValid constraintAnnotation) {
-
     }
 
     @Override

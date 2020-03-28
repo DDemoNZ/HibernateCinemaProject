@@ -4,10 +4,8 @@ import com.dev.cinema.model.User;
 import com.dev.cinema.model.dto.request.UserAuthenticateRequestDto;
 import com.dev.cinema.model.dto.response.UserResponseDto;
 import com.dev.cinema.service.AuthenticationService;
-
 import javax.security.sasl.AuthenticationException;
 import javax.validation.Valid;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.PostMapping;

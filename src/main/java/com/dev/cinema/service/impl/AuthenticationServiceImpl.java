@@ -5,9 +5,7 @@ import com.dev.cinema.service.AuthenticationService;
 import com.dev.cinema.service.RoleService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
-
 import javax.security.sasl.AuthenticationException;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
