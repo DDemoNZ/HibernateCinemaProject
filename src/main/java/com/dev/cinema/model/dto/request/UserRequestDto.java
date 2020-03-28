@@ -1,8 +1,15 @@
 package com.dev.cinema.model.dto.request;
 
+import com.dev.cinema.annotation.EmailValid;
+
+import javax.validation.constraints.NotEmpty;
+
 public class UserRequestDto {
 
+    @NotEmpty(message = "Email must not be empty.")
+    @EmailValid
     private String email;
+    @NotEmpty(message = "Password must not be empty.")
     private String password;
 
     public String getPassword() {

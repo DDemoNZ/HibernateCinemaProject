@@ -9,9 +9,9 @@ import com.dev.cinema.service.MovieSessionService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,14 +35,13 @@ public class MovieSessionController {
         this.cinemaHallService = cinemaHallService;
     }
 
-    @PostMapping
-    public void addMovieSession(@RequestBody MovieSessionRequestDto movieSessionRequestDto) {
+    @PostMapping("/add")
+    public void addMovieSession(@RequestBody @Valid MovieSessionRequestDto movieSessionRequestDto) {
         MovieSession movieSession = new MovieSession();
         movieSession.setMovie(movieService.getById(movieSessionRequestDto.getMovieId()));
         movieSession.setCinemaHall(cinemaHallService.getById(movieSessionRequestDto
                 .getCinemaHallId()));
-        movieSession.setShowTime(LocalDateTime.parse(movieSessionRequestDto.getShowTime(),
-                DateTimeFormatter.ISO_DATE_TIME));
+        movieSession.setShowTime(LocalDateTime.parse(movieSessionRequestDto.getShowTime()));
         movieSessionService.add(movieSession);
     }
 

@@ -1,35 +1,37 @@
 package com.dev.cinema.service.impl;
 
-import com.dev.cinema.dao.UserDao;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.AuthenticationService;
+import com.dev.cinema.service.RoleService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
-import com.dev.cinema.util.HashUtil;
 
 import javax.security.sasl.AuthenticationException;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private final UserDao userDao;
     private final UserService userService;
     private final ShoppingCartService shoppingCartService;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
-    public AuthenticationServiceImpl(UserDao userDao, UserService userService,
-                                     ShoppingCartService shoppingCartService) {
-        this.userDao = userDao;
+    public AuthenticationServiceImpl(UserService userService,
+                                     ShoppingCartService shoppingCartService,
+                                     PasswordEncoder passwordEncoder, RoleService roleService) {
         this.userService = userService;
         this.shoppingCartService = shoppingCartService;
+        this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
-        User user = userDao.findByEmail(email);
-        if (user == null || !user.getPassword()
-                .equals(HashUtil.hashPassword(password, user.getSalt()))) {
+        User user = userService.findByEmail(email);
+        if (user == null || !user.getPassword().equals(passwordEncoder.encode(password))) {
             throw new AuthenticationException("Invalid email or password");
         }
         return user;
@@ -39,7 +41,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public User register(String email, String password) {
         User user = new User();
         user.setEmail(email);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
+        user.getRoles().add(roleService.getByRoleName("USER"));
         User registeredUser = userService.add(user);
         shoppingCartService.registerNewShoppingCart(registeredUser);
         return registeredUser;

@@ -6,6 +6,7 @@ import com.dev.cinema.model.dto.response.UserResponseDto;
 import com.dev.cinema.service.AuthenticationService;
 
 import javax.security.sasl.AuthenticationException;
+import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +27,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserAuthenticateRequestDto
+    public String login(@RequestBody @Valid UserAuthenticateRequestDto
                                 userAuthenticateRequestDto) {
         try {
             authenticationService.login(userAuthenticateRequestDto.getEmail(),
@@ -39,7 +40,7 @@ public class AuthenticationController {
         }
     }
 
-    @PostMapping(value = "/register")
+    @PostMapping("/register")
     public UserResponseDto register(@RequestBody UserAuthenticateRequestDto
                                             userAuthenticateRequestDto) {
         User user = authenticationService.register(userAuthenticateRequestDto.getEmail(),
