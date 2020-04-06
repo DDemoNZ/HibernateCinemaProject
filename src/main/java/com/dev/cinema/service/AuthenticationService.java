@@ -1,7 +1,6 @@
 package com.dev.cinema.service;
 
 import com.dev.cinema.model.User;
-
 import javax.security.sasl.AuthenticationException;
 
 public interface AuthenticationService {

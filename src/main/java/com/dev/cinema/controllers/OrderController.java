@@ -7,11 +7,9 @@ import com.dev.cinema.model.dto.response.OrdersResponseDto;
 import com.dev.cinema.model.dto.response.TicketResponseDto;
 import com.dev.cinema.service.OrderService;
 import com.dev.cinema.service.UserService;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +29,7 @@ public class OrderController {
         this.userService = userService;
     }
 
-    @PostMapping("/complete")
+    @PostMapping("/order")
     public OrdersResponseDto completeOrder(@RequestParam @Valid Long userId,
                                            @Valid Authentication authentication) {
         Orders orders = orderService.completeOrder(userService
@@ -39,9 +37,9 @@ public class OrderController {
         return getOrdersResponseDto(orders);
     }
 
-    @GetMapping()
+    @GetMapping("/order-history")
     public List<OrdersResponseDto> getOrdersHistory(@RequestParam @Valid UserRequestDto
-                                                                userRequestDto) {
+                                                            userRequestDto) {
         List<Orders> orderHistory =
                 orderService.getOrderHistory(userService.findByEmail(userRequestDto.getEmail()));
         return orderHistory.stream().map(this::getOrdersResponseDto)

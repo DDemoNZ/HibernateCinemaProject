@@ -2,10 +2,8 @@ package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.CinemaHallDao;
 import com.dev.cinema.model.CinemaHall;
-
 import java.util.List;
 import javax.persistence.criteria.CriteriaQuery;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

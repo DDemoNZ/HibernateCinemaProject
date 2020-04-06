@@ -9,11 +9,9 @@ import com.dev.cinema.model.dto.response.TicketResponseDto;
 import com.dev.cinema.service.MovieSessionService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/shopping-cart")
+@RequestMapping("/shopping-carts")
 public class ShoppingCartController {
 
     private final UserService userService;
@@ -37,7 +35,7 @@ public class ShoppingCartController {
         this.userService = userService;
     }
 
-    @PostMapping("/add-movie-session")
+    @PostMapping
     public ShoppingCartResponseDto addMovieSession(@RequestParam Long movieSessionId,
                                                    @Valid Authentication authentication) {
         MovieSession movieSession = movieSessionService.getById(movieSessionId);
@@ -46,7 +44,7 @@ public class ShoppingCartController {
         return getShoppingCartResponseDto(shoppingCartService.getByUser(user));
     }
 
-    @GetMapping("/by-user-id")
+    @GetMapping("/shopping-cart")
     public ShoppingCartResponseDto getShoppingCarByUserId(@Valid Authentication authentication) {
         return getShoppingCartResponseDto(shoppingCartService
                 .getByUser(userService.findByEmail(authentication.getName())));

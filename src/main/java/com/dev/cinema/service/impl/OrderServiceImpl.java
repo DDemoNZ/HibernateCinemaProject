@@ -6,9 +6,7 @@ import com.dev.cinema.model.ShoppingCart;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.OrderService;
 import com.dev.cinema.service.ShoppingCartService;
-
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,7 +1,6 @@
 package com.dev.cinema.model.dto.request;
 
 import com.dev.cinema.annotation.EmailValid;
-
 import javax.validation.constraints.NotEmpty;
 
 public class UserRequestDto {
