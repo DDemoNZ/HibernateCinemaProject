@@ -74,33 +74,33 @@ class MovieServiceImplTest {
     void addMovieOk() {
         when(movieDao.add(testMovie)).thenReturn(expectedMockMovie);
 
-        Movie added = movieService.add(testMovie);
+        Movie addedMovie = movieService.add(testMovie);
 
-        assertNotNull(added.getId());
-        assertEquals("Test", added.getTitle());
+        assertNotNull(addedMovie.getId());
+        assertEquals("Test", addedMovie.getTitle());
     }
 
     @Test
     void getAllMoviesOk() {
         when(movieDao.getAll()).thenReturn(movieStorage);
 
-        List<Movie> movies = movieService.getAll();
+        List<Movie> actualMoviesFromStorage = movieService.getAll();
 
         verify(movieDao, times(1)).getAll();
 
-        assertNotNull(movies);
-        assertEquals(3, movies.size());
-        assertEquals(thirdMovie.getId(), movies.get(2).getId());
-        assertEquals(thirdMovie, movies.get(2));
+        assertNotNull(actualMoviesFromStorage);
+        assertEquals(3, actualMoviesFromStorage.size());
+        assertEquals(thirdMovie.getId(), actualMoviesFromStorage.get(2).getId());
+        assertEquals(thirdMovie, actualMoviesFromStorage.get(2));
     }
 
     @Test
     void getMovieByIdOk() {
         when(movieDao.getById(1L)).thenReturn(movieStorage.get(0));
 
-        Movie movieById = movieService.getById(1L);
+        Movie actualMovieById = movieService.getById(1L);
 
         verify(movieDao, times(1)).getById(any());
-        assertEquals(firstMovie, movieById);
+        assertEquals(firstMovie, actualMovieById);
     }
 }
