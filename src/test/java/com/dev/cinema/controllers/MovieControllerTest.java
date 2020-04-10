@@ -1,14 +1,14 @@
-package com.dev.cinema.controller;
+package com.dev.cinema.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.dev.cinema.controllers.MovieController;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.dto.request.MovieRequestDto;
 import com.dev.cinema.model.dto.response.MovieResponseDto;
@@ -26,10 +26,10 @@ class MovieControllerTest {
 
     private static MovieRequestDto movieRequest;
     private static Movie mockMovie;
-    private static Movie first;
-    private static Movie second;
-    private static Movie third;
-    private static List<Movie> moviesFromStorage;
+    private static Movie expectedFirstMockMovie;
+    private static Movie expectedSecondMockMovie;
+    private static Movie expectedThirdMockMovie;
+    private static List<Movie> mockExpectedMoviesFromStorage;
 
     @InjectMocks
     private MovieController movieController;
@@ -48,23 +48,25 @@ class MovieControllerTest {
         mockMovie.setTitle(movieRequest.getTitle());
         mockMovie.setDescription(movieRequest.getDescription());
 
-        first = new Movie();
-        first.setId(1L);
-        first.setTitle("First");
-        first.setDescription("First");
-        second = new Movie();
-        second.setId(2L);
-        second.setTitle("Second");
-        second.setDescription("Second");
-        third = new Movie();
-        third.setId(3L);
-        third.setTitle("Third");
-        third.setDescription("Third");
+        expectedFirstMockMovie = new Movie();
+        expectedFirstMockMovie.setId(1L);
+        expectedFirstMockMovie.setTitle("First");
+        expectedFirstMockMovie.setDescription("First");
 
-        moviesFromStorage = new ArrayList<>();
-        moviesFromStorage.add(first);
-        moviesFromStorage.add(second);
-        moviesFromStorage.add(third);
+        expectedSecondMockMovie = new Movie();
+        expectedSecondMockMovie.setId(2L);
+        expectedSecondMockMovie.setTitle("Second");
+        expectedSecondMockMovie.setDescription("Second");
+
+        expectedThirdMockMovie = new Movie();
+        expectedThirdMockMovie.setId(3L);
+        expectedThirdMockMovie.setTitle("Third");
+        expectedThirdMockMovie.setDescription("Third");
+
+        mockExpectedMoviesFromStorage = new ArrayList<>();
+        mockExpectedMoviesFromStorage.add(expectedFirstMockMovie);
+        mockExpectedMoviesFromStorage.add(expectedSecondMockMovie);
+        mockExpectedMoviesFromStorage.add(expectedThirdMockMovie);
     }
 
     @BeforeEach
@@ -73,7 +75,7 @@ class MovieControllerTest {
     }
 
     @Test
-    void addMovie() {
+    void addMovieOk() {
         when(movieService.add(anyObject())).thenReturn(mockMovie);
 
         MovieResponseDto movieResponseDto = movieController.addMovie(movieRequest);
@@ -85,14 +87,26 @@ class MovieControllerTest {
     }
 
     @Test
-    void getAllMovies() {
-        when(movieService.getAll()).thenReturn(moviesFromStorage);
+    void getAllMoviesOk() {
+        when(movieService.getAll()).thenReturn(mockExpectedMoviesFromStorage);
 
         List<MovieResponseDto> allMovies = movieController.getAllMovies();
 
         verify(movieService, times(1)).getAll();
         assertNotNull(allMovies);
         assertNotNull(allMovies.get(1));
-        assertEquals(first.getTitle(), allMovies.get(0).getTitle());
+        assertEquals(expectedFirstMockMovie.getTitle(), allMovies.get(0).getTitle());
+    }
+
+    @Test
+    void getAllMoviesNonexistent() {
+        when(movieService.getAll()).thenReturn(new ArrayList<Movie>());
+
+        List<MovieResponseDto> actualAllMoviesStorage = movieController.getAllMovies();
+
+        assertNotNull(actualAllMoviesStorage);
+        assertEquals(0, actualAllMoviesStorage.size());
+        assertThrows(Exception.class, () -> actualAllMoviesStorage.get(0));
+        verify(movieService, times(1)).getAll();
     }
 }
