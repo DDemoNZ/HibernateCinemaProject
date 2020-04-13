@@ -2,7 +2,6 @@ package com.dev.cinema.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -123,6 +122,5 @@ class CinemaHallControllerTest {
         verify(cinemaHallService, times(1)).getAll();
         assertNotNull(actualCinemaHallStorageResponse);
         assertEquals(0, actualCinemaHallStorageResponse.size());
-        assertThrows(Exception.class, () -> actualCinemaHallStorageResponse.get(0));
     }
 }

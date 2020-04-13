@@ -2,7 +2,6 @@ package com.dev.cinema.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.times;
@@ -104,9 +103,8 @@ class MovieControllerTest {
 
         List<MovieResponseDto> actualAllMoviesStorage = movieController.getAllMovies();
 
+        verify(movieService, times(1)).getAll();
         assertNotNull(actualAllMoviesStorage);
         assertEquals(0, actualAllMoviesStorage.size());
-        assertThrows(Exception.class, () -> actualAllMoviesStorage.get(0));
-        verify(movieService, times(1)).getAll();
     }
 }

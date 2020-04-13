@@ -165,7 +165,8 @@ class ShoppingCartControllerTest {
         ShoppingCartResponseDto actualShoppingCartResponseDto =
                 shoppingCartController.addMovieSession(expectedMovieSessionId, authentication);
 
-        verify(shoppingCartService, times(1)).addSession(expectedSecondMovieSession, secondMockUser);
+        verify(shoppingCartService, times(1)).addSession(expectedSecondMovieSession,
+                secondMockUser);
         verify(shoppingCartService, times(1)).getByUser(any());
         verify(movieSessionService, times(1)).getById(anyLong());
         verify(userService, times(1)).findByEmail(anyString());

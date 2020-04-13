@@ -1,5 +1,7 @@
 package com.dev.cinema.model.dto.response;
 
+import java.util.Objects;
+
 public class TicketResponseDto {
 
     private Long ticketId;
@@ -28,5 +30,24 @@ public class TicketResponseDto {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TicketResponseDto that = (TicketResponseDto) o;
+        return Objects.equals(ticketId, that.ticketId)
+                && Objects.equals(movieSessionId, that.movieSessionId)
+                && Objects.equals(userId, that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ticketId, movieSessionId, userId);
     }
 }

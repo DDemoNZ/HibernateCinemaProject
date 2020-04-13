@@ -1,5 +1,6 @@
 package com.dev.cinema.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +20,7 @@ public class Orders {
     private Long id;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<Ticket> tickets;
+    private List<Ticket> tickets = new ArrayList<>();
 
     @ManyToOne
     private User user;
