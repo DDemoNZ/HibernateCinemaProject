@@ -22,7 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class UserServiceImplTest {
+public class UserServiceImplTest {
 
     private static User testUser;
     private static User expectedMockUser;
@@ -38,7 +38,7 @@ class UserServiceImplTest {
     private UserDao userDao;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         testUser = new User();
         testUser.setEmail("TestEmail");
         testUser.setPassword("TestPsw");
@@ -78,12 +78,12 @@ class UserServiceImplTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void add() {
+    public void add() {
         when(userDao.add(testUser)).thenReturn(expectedMockUser);
 
         User actualUser = userService.add(testUser);
@@ -97,7 +97,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findByEmail() {
+    public void findByEmail() {
         String expectedEmailMatcher = "SecondEmail";
         when(userDao.findByEmail(anyString())).thenReturn(userStorage.stream()
                 .filter(user -> user.getEmail().equals(expectedEmailMatcher))
@@ -114,7 +114,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findByEmailWithNonexistentEmail() {
+    public void findByEmailWithNonexistentEmail() {
         String expectedEmailMatcher = "NonexistentEmail";
         when(userDao.findByEmail(anyString())).thenReturn(userStorage.stream()
                 .filter(user -> user.getEmail().equals(expectedEmailMatcher))
@@ -129,7 +129,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void getByIdOk() {
+    public void getByIdOk() {
         Long expectedIdMatcher = 2L;
         when(userDao.getById(anyLong())).thenReturn(userStorage.stream()
                 .filter(user -> user.getId().equals(expectedIdMatcher))
@@ -147,7 +147,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void getByIdWithNonexistentId() {
+    public void getByIdWithNonexistentId() {
         Long expectedIdMatcher = 5L;
         when(userDao.getById(anyLong())).thenReturn(userStorage.stream()
                 .filter(user -> user.getId().equals(expectedIdMatcher))

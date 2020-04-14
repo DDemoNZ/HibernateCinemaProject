@@ -27,10 +27,12 @@ There are specific tools for admins only such as:
 * Java 11
 * Maven 4.0.0
 * Spring 5.2.2.RELEASE (Context, ORM, Web-MVC, Security-core)
-* Hibernate 6.1.2.Final
+* Hibernate 5.4.5.Final
 * Jackson-databind 2.10.2
 * Log4j 2.13.0
 * MySQL
+* JUnit jupiter-api 5.1.0
+* Mockito 1.10.19
 <hr>
 
 # <a name="developer-start"></a>For developer

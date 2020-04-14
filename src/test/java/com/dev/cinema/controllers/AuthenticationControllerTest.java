@@ -10,8 +10,6 @@ import com.dev.cinema.model.User;
 import com.dev.cinema.model.dto.request.UserAuthenticateRequestDto;
 import com.dev.cinema.model.dto.response.UserResponseDto;
 import com.dev.cinema.service.AuthenticationService;
-import java.util.ArrayList;
-import java.util.List;
 import javax.security.sasl.AuthenticationException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class AuthenticationControllerTest {
+public class AuthenticationControllerTest {
 
     private static User expectedUser;
     private static UserAuthenticateRequestDto userTestRequestDto;
@@ -32,7 +30,7 @@ class AuthenticationControllerTest {
     private AuthenticationService authenticationService;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         userTestRequestDto = new UserAuthenticateRequestDto();
         userTestRequestDto.setEmail("Test");
         userTestRequestDto.setPassword("Test");
@@ -45,12 +43,12 @@ class AuthenticationControllerTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void loginOk() throws AuthenticationException {
+    public void loginOk() throws AuthenticationException {
         String expectedLoginResponse = "Success login";
 
         UserAuthenticateRequestDto userAuthenticationRequestDto = new UserAuthenticateRequestDto();
@@ -67,7 +65,7 @@ class AuthenticationControllerTest {
     }
 
     @Test
-    void loginWithNonexistentUser() throws AuthenticationException {
+    public void loginWithNonexistentUser() throws AuthenticationException {
         User expectedUser = new User();
         expectedUser.setId(1L);
         expectedUser.setEmail("Nonexistent");
@@ -86,7 +84,7 @@ class AuthenticationControllerTest {
     }
 
     @Test
-    void registerOk() {
+    public void registerOk() {
         when(authenticationService.register(anyString(), anyString())).thenReturn(expectedUser);
 
         UserResponseDto actualRegisteredUserResponseDto =

@@ -32,14 +32,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.Authentication;
 
-class ShoppingCartControllerTest {
+public class ShoppingCartControllerTest {
 
     private static List<MovieSession> mockMovieSessionStorage;
     private static MovieSession expectedSecondMovieSession;
     private static User secondMockUser;
+    private static List<User> mockUserStorage;
     private static ShoppingCart mockSecondUserShoppingCart;
     private static ShoppingCart expectedSecondUserShoppingCart;
-    private static List<User> mockUserStorage;
 
     @Mock
     private UserServiceImpl userService;
@@ -57,7 +57,7 @@ class ShoppingCartControllerTest {
     private ShoppingCartController shoppingCartController;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         CinemaHall expectedFirstCinemaHall = new CinemaHall();
         expectedFirstCinemaHall.setId(1L);
         expectedFirstCinemaHall.setCapacity(20);
@@ -138,12 +138,12 @@ class ShoppingCartControllerTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void addMovieSessionAllOk() {
+    public void addMovieSessionAllOk() {
         when(authentication.getName()).thenReturn(secondMockUser.getEmail());
 
         Long expectedMovieSessionId = 2L;
@@ -183,7 +183,7 @@ class ShoppingCartControllerTest {
     }
 
     @Test
-    void getShoppingCarByUserIdOk() {
+    public void getShoppingCarByUserIdOk() {
         when(authentication.getName()).thenReturn(secondMockUser.getEmail());
         when(shoppingCartService.getByUser(any())).thenReturn(mockSecondUserShoppingCart);
         when(userService.findByEmail(any())).thenReturn(secondMockUser);
@@ -200,7 +200,7 @@ class ShoppingCartControllerTest {
     }
 
     @Test
-    void getShoppingCarByNonexistentUserId() {
+    public void getShoppingCarByNonexistentUserId() {
         when(authentication.getName()).thenReturn("Nonexistent");
         when(shoppingCartService.getByUser(any())).thenReturn(null);
         when(userService.findByEmail(any())).thenReturn(null);

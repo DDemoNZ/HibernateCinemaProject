@@ -24,7 +24,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class MovieSessionServiceImplTest {
+public class MovieSessionServiceImplTest {
 
     private static List<MovieSession> movieSessionStorage;
     private static MovieSession testMovieSession;
@@ -38,7 +38,7 @@ class MovieSessionServiceImplTest {
     private MovieSessionDao movieSessionDao;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         Movie testMovie = new Movie();
         testMovie.setId(1L);
         testMovie.setTitle("Test");
@@ -76,12 +76,12 @@ class MovieSessionServiceImplTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void addMovieSessionOk() {
+    public void addMovieSessionOk() {
         when(movieSessionDao.add(any())).thenReturn(expectedMovieSession);
 
         MovieSession actualAddedMovieSession = movieSessionService.add(testMovieSession);
@@ -91,7 +91,7 @@ class MovieSessionServiceImplTest {
     }
 
     @Test
-    void findAvailableSessionsOk() {
+    public void findAvailableSessionsOk() {
         Long expectedMovieId = 1L;
         LocalDateTime expectedDate = LocalDateTime.parse("2020-10-10T20:00");
         when(movieSessionDao.findAvailableSessions(expectedMovieId, expectedDate))
@@ -107,7 +107,7 @@ class MovieSessionServiceImplTest {
     }
 
     @Test
-    void findAvailableSessionsWithNonexistentTime() {
+    public void findAvailableSessionsWithNonexistentTime() {
         Long expectedMovieId = 5L;
         LocalDateTime expectedDate = LocalDateTime.parse("2020-11-10T20:00:00");
         when(movieSessionDao.findAvailableSessions(expectedMovieId, expectedDate))
@@ -123,7 +123,7 @@ class MovieSessionServiceImplTest {
     }
 
     @Test
-    void getMovieSessionByIdOk() {
+    public void getMovieSessionByIdOk() {
         Long expectedMovieSessionId = 1L;
 
         when(movieSessionDao.getById(expectedMovieSessionId)).thenReturn(movieSessionStorage.stream()
@@ -140,7 +140,7 @@ class MovieSessionServiceImplTest {
     }
 
     @Test
-    void getMovieSessionByNonexistentId() {
+    public void getMovieSessionByNonexistentId() {
         Long expectedMovieSessionId = 5L;
 
         when(movieSessionDao.getById(expectedMovieSessionId)).thenReturn(movieSessionStorage.stream()

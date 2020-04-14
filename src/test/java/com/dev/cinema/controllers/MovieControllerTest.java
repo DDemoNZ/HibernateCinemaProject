@@ -21,7 +21,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class MovieControllerTest {
+public class MovieControllerTest {
 
     private static MovieRequestDto movieRequest;
     private static Movie mockMovie;
@@ -37,7 +37,7 @@ class MovieControllerTest {
     private MovieServiceImpl movieService;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         movieRequest = new MovieRequestDto();
         movieRequest.setTitle("Test");
         movieRequest.setDescription("Test");
@@ -69,12 +69,12 @@ class MovieControllerTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void addMovieOk() {
+    public void addMovieOk() {
         when(movieService.add(anyObject())).thenReturn(mockMovie);
 
         MovieResponseDto movieResponseDto = movieController.addMovie(movieRequest);
@@ -86,7 +86,7 @@ class MovieControllerTest {
     }
 
     @Test
-    void getAllMoviesOk() {
+    public void getAllMoviesOk() {
         when(movieService.getAll()).thenReturn(mockExpectedMoviesFromStorage);
 
         List<MovieResponseDto> allMovies = movieController.getAllMovies();
@@ -98,7 +98,7 @@ class MovieControllerTest {
     }
 
     @Test
-    void getAllMoviesNonexistent() {
+    public void getAllMoviesNonexistent() {
         when(movieService.getAll()).thenReturn(new ArrayList<Movie>());
 
         List<MovieResponseDto> actualAllMoviesStorage = movieController.getAllMovies();

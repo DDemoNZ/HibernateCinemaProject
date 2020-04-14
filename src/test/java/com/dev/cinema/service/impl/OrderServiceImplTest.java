@@ -24,7 +24,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class OrderServiceImplTest {
+public class OrderServiceImplTest {
 
     private static User expectedUser;
     private static List<Orders> ordersStorage;
@@ -41,7 +41,7 @@ class OrderServiceImplTest {
     private ShoppingCartServiceImpl shoppingCartService;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         expectedUser = new User();
         expectedUser.setId(1L);
         expectedUser.setEmail("Test");
@@ -67,12 +67,12 @@ class OrderServiceImplTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void completeOrderOk() {
+    public void completeOrderOk() {
         ShoppingCart shoppingCartAfterClear = new ShoppingCart();
         shoppingCartAfterClear.setId(expectedShoppingCartByUser.getId());
         shoppingCartAfterClear.setUser(expectedShoppingCartByUser.getUser());
@@ -93,7 +93,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void getOrderHistoryOk() {
+    public void getOrderHistoryOk() {
         when(orderDao.getUserOrderHistory(any())).thenReturn(ordersStorage.stream()
                 .filter(orders -> orders.getUser().equals(expectedUser))
                 .collect(Collectors.toList()));
@@ -106,7 +106,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void getOrderHistoryWithNonexistentUser() {
+    public void getOrderHistoryWithNonexistentUser() {
         User nonexistentUser = new User();
         nonexistentUser.setId(5L);
         nonexistentUser.setEmail("nonexistent");
@@ -122,7 +122,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void getByOrderIdOk() {
+    public void getByOrderIdOk() {
         Long expectedOkId = 1L;
         when(orderDao.getById(anyLong())).thenReturn(ordersStorage.stream()
                 .filter(orders -> orders.getId().equals(expectedOkId))
@@ -137,7 +137,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void getByNonexistentOrderIdOk() {
+    public void getByNonexistentOrderIdOk() {
         Long nonexistentIk = 5L;
         when(orderDao.getById(anyLong())).thenReturn(ordersStorage.stream()
                 .filter(orders -> orders.getId().equals(nonexistentIk))

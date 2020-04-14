@@ -27,7 +27,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class MovieSessionControllerTest {
+public class MovieSessionControllerTest {
 
     private static MovieSession expectedMockMovieSession;
     private static Movie expectedMockMovieForMockMovieSession;
@@ -48,7 +48,7 @@ class MovieSessionControllerTest {
     private CinemaHallServiceImpl cinemaHallService;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         expectedMockMovieForMockMovieSession = new Movie();
         expectedMockMovieForMockMovieSession.setId(1L);
         expectedMockMovieForMockMovieSession.setTitle("Test");
@@ -77,12 +77,12 @@ class MovieSessionControllerTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void addMovieSessionOk() {
+    public void addMovieSessionOk() {
         when(movieService.getById(anyLong())).thenReturn(expectedMockMovieForMockMovieSession);
         when(cinemaHallService.getById(anyLong())).thenReturn(expectedMockCinemaHallForMockMovieSession);
         when(movieSessionService.add(any())).thenReturn(expectedMockMovieSession);
@@ -98,7 +98,7 @@ class MovieSessionControllerTest {
     }
 
     @Test
-    void getAllAvailableSessionsOk() {
+    public void getAllAvailableSessionsOk() {
         List<MovieSession> expectedAvailableMovieSessionStorage = List.of(expectedMockMovieSession);
         List<MovieSessionResponseDto> expectedMovieSessionResponseDtoList =
                 List.of(expectedMovieSessionResponseDto);
@@ -120,7 +120,7 @@ class MovieSessionControllerTest {
     }
 
     @Test
-    void getAllAvailableSessionsWithNoAvailable() {
+    public void getAllAvailableSessionsWithNoAvailable() {
         List<MovieSession> expectedAvailableMovieSessionStorage = Collections.emptyList();
         List<MovieSessionResponseDto> expectedMovieSessionResponseDtoList = Collections.emptyList();
         LocalDateTime expectedDate = LocalDateTime.parse("2020-04-10T15:00");

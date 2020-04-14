@@ -28,7 +28,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.Authentication;
 
-class OrderControllerTest {
+public class OrderControllerTest {
 
     private static User mockTestUser;
     private static Orders expectedOrder;
@@ -49,7 +49,7 @@ class OrderControllerTest {
     private Authentication authentication;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         mockTestUser = new User();
         mockTestUser.setId(1L);
         mockTestUser.setEmail("TestUser");
@@ -97,12 +97,12 @@ class OrderControllerTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void completeOrder() {
+    public void completeOrder() {
         OrdersResponseDto expectedOrderResponseDto = new OrdersResponseDto();
         expectedOrderResponseDto.setOrderId(expectedOrder.getId());
         expectedOrderResponseDto.getTickets().add(testTicketResponseDto);
@@ -121,7 +121,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void completeOrderWithoutTickets() {
+    public void completeOrderWithoutTickets() {
         when(authentication.getName()).thenReturn(mockTestUser.getEmail());
         when(orderService.completeOrder(mockTestUser)).thenReturn(expectedOrder);
         when(userService.findByEmail(anyString())).thenReturn(mockTestUser);
@@ -134,7 +134,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void getUserOrdersHistoryOk() {
+    public void getUserOrdersHistoryOk() {
         when(orderService.getOrderHistory(mockTestUser)).thenReturn(List.of(expectedOrder));
         when(userService.findByEmail(anyString())).thenReturn(mockTestUser);
 
@@ -147,7 +147,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void getOrdersHistoryWithoutOrdersOk() {
+    public void getOrdersHistoryWithoutOrdersOk() {
         when(orderService.getOrderHistory(mockTestUser)).thenReturn(Collections.emptyList());
         when(userService.findByEmail(anyString())).thenReturn(mockTestUser);
 

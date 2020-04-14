@@ -22,7 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class UserControllerTest {
+public class UserControllerTest {
 
     private static UserResponseDto expectedUserResponseDto;
     private static List<User> mockUserStorage;
@@ -34,7 +34,7 @@ class UserControllerTest {
     private UserServiceImpl userService;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         UserRequestDto userRequestDto = new UserRequestDto();
         userRequestDto.setEmail("TestEmail");
         userRequestDto.setPassword("TestPassword");
@@ -71,12 +71,12 @@ class UserControllerTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void getUserByEmailOk() {
+    public void getUserByEmailOk() {
         String expectedEmailMatcher = "TestEmail";
         when(userService.findByEmail(anyString())).thenReturn(mockUserStorage.stream()
                 .filter(user -> user.getEmail().equals(expectedEmailMatcher))
@@ -92,7 +92,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUserByEmailWithNonexistentEmail() {
+    public void getUserByEmailWithNonexistentEmail() {
         String expectedEmailMatcher = "NonexistentEmail";
         when(userService.findByEmail(anyString())).thenReturn(mockUserStorage.stream()
                 .filter(user -> user.getEmail().equals(expectedEmailMatcher))

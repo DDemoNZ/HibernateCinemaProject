@@ -19,7 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class MovieServiceImplTest {
+public class MovieServiceImplTest {
 
     private static Movie firstMovie;
     private static Movie secondMovie;
@@ -35,7 +35,7 @@ class MovieServiceImplTest {
     private MovieDao movieDao;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         expectedMockMovie = new Movie();
         expectedMockMovie.setId(1L);
         expectedMockMovie.setTitle("Test");
@@ -67,12 +67,12 @@ class MovieServiceImplTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void addMovieOk() {
+    public void addMovieOk() {
         when(movieDao.add(testMovie)).thenReturn(expectedMockMovie);
 
         Movie addedMovie = movieService.add(testMovie);
@@ -85,7 +85,7 @@ class MovieServiceImplTest {
     }
 
     @Test
-    void getAllMoviesOk() {
+    public void getAllMoviesOk() {
         when(movieDao.getAll()).thenReturn(movieStorage);
 
         List<Movie> actualMoviesFromStorage = movieService.getAll();
@@ -99,7 +99,7 @@ class MovieServiceImplTest {
     }
 
     @Test
-    void getMovieByIdOk() {
+    public void getMovieByIdOk() {
         Long expectedMovieId = 1L;
         when(movieDao.getById(expectedMovieId)).thenReturn(movieStorage.stream()
                 .filter(movie -> movie.getId().equals(expectedMovieId))
@@ -115,7 +115,7 @@ class MovieServiceImplTest {
     }
 
     @Test
-    void getMovieWithNonexistentId() {
+    public void getMovieWithNonexistentId() {
         Long testNonexistentMovieId = 5L;
         when(movieDao.getById(testNonexistentMovieId)).thenReturn(movieStorage.stream()
                 .filter(movie -> movie.getId().equals(testNonexistentMovieId))

@@ -20,7 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class RoleServiceImplTest {
+public class RoleServiceImplTest {
 
     private static Role expectedRole;
     private static List<Role> mockRoleStorage;
@@ -32,7 +32,7 @@ class RoleServiceImplTest {
     private RoleDao roleDao;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         expectedRole = new Role();
         expectedRole.setId(1L);
         expectedRole.setRoleName("TEST");
@@ -52,13 +52,13 @@ class RoleServiceImplTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
 
     @Test
-    void addRoleOk() {
+    public void addRoleOk() {
         when(roleDao.add(any())).thenReturn(expectedRole);
 
         Role testRole = new Role();
@@ -73,7 +73,7 @@ class RoleServiceImplTest {
     }
 
     @Test
-    void getByRoleNameOk() {
+    public void getByRoleNameOk() {
         String expectedRoleName = "TEST";
         when(roleDao.getByRoleName(anyString())).thenReturn(mockRoleStorage.stream()
                 .filter(role -> role.getRoleName().equals(expectedRoleName))
@@ -89,7 +89,7 @@ class RoleServiceImplTest {
     }
 
     @Test
-    void getByNonexistentRoleName() {
+    public void getByNonexistentRoleName() {
         String expectedRoleName = "NonexistentRole";
         when(roleDao.getByRoleName(anyString())).thenReturn(mockRoleStorage.stream()
                 .filter(role -> role.getRoleName().equals(expectedRoleName))

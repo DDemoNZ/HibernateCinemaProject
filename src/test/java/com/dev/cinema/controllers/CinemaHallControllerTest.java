@@ -20,7 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class CinemaHallControllerTest {
+public class CinemaHallControllerTest {
 
     private static CinemaHallRequestDto cinemaHallRequestDto;
     private static CinemaHallResponseDto expectedCinemaHallResponseDto;
@@ -37,7 +37,7 @@ class CinemaHallControllerTest {
     private CinemaHallServiceImpl cinemaHallService;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         cinemaHallRequestDto = new CinemaHallRequestDto();
         cinemaHallRequestDto.setCapacity(20);
         cinemaHallRequestDto.setDescription("TestDescription");
@@ -74,12 +74,12 @@ class CinemaHallControllerTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void addCinemaHallOk() {
+    public void addCinemaHallOk() {
         when(cinemaHallService.add(any())).thenReturn(expectedCinemaHall);
 
         CinemaHallResponseDto actualCinemaHallResponseDto =
@@ -94,7 +94,7 @@ class CinemaHallControllerTest {
     }
 
     @Test
-    void getAllCinemaHallsOk() {
+    public void getAllCinemaHallsOk() {
         when(cinemaHallService.getAll()).thenReturn(mockCinemaHallStorage);
 
         List<CinemaHallResponseDto> actualAllCinemaHallResponse =
@@ -113,7 +113,7 @@ class CinemaHallControllerTest {
     }
 
     @Test
-    void getAllCinemaHallsNonexistent() {
+    public void getAllCinemaHallsNonexistent() {
         when(cinemaHallService.getAll()).thenReturn(new ArrayList<CinemaHall>());
 
         List<CinemaHallResponseDto> actualCinemaHallStorageResponse =

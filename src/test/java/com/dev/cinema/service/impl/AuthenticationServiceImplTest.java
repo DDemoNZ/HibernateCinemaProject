@@ -12,7 +12,6 @@ import com.dev.cinema.model.Role;
 import com.dev.cinema.model.ShoppingCart;
 import com.dev.cinema.model.User;
 import javax.security.sasl.AuthenticationException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,34 +20,23 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-class AuthenticationServiceImplTest {
-
-    @InjectMocks
-    private AuthenticationServiceImpl authenticationService;
-
-    @Mock
-    private UserServiceImpl userService;
-
-    @Mock
-    private ShoppingCartServiceImpl shoppingCartService;
-
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
-    @Mock
-    private RoleServiceImpl roleService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
+public class AuthenticationServiceImplTest {
 
     private static Role mockUserRole;
     private static User expectedUser;
-
+    @InjectMocks
+    private AuthenticationServiceImpl authenticationService;
+    @Mock
+    private UserServiceImpl userService;
+    @Mock
+    private ShoppingCartServiceImpl shoppingCartService;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+    @Mock
+    private RoleServiceImpl roleService;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         mockUserRole = new Role();
         mockUserRole.setId(1L);
         mockUserRole.setRoleName("USER");
@@ -61,8 +49,13 @@ class AuthenticationServiceImplTest {
 
     }
 
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     @Test
-    void loginOk() throws AuthenticationException {
+    public void loginOk() throws AuthenticationException {
         String expectedPassword = "TestUser";
         String expectedEmail = "TestUser";
 
@@ -87,7 +80,7 @@ class AuthenticationServiceImplTest {
     }
 
     @Test
-    void loginWithNonValid() throws AuthenticationException {
+    public void loginWithNonValid() throws AuthenticationException {
         String expectedPassword = "Secret : TestUser";
         String expectedEmail = "Test";
 
@@ -95,13 +88,13 @@ class AuthenticationServiceImplTest {
         when(passwordEncoder.encode(anyString())).thenReturn(expectedPassword);
 
         assertThrows(AuthenticationException.class, () -> authenticationService.login(expectedEmail,
-            expectedPassword));
+                expectedPassword));
         verify(userService, times(1)).findByEmail(anyString());
         verify(passwordEncoder, times(0)).encode(any());
     }
 
     @Test
-    void registerOk() {
+    public void registerOk() {
         User testUser = new User();
         testUser.setEmail("Email");
         testUser.setPassword("Psw");
@@ -113,14 +106,14 @@ class AuthenticationServiceImplTest {
         expectedTestUser.setEmail(testUser.getEmail());
         expectedTestUser.setRoles(testUser.getRoles());
 
-       ShoppingCart expectedShoppingCart = new ShoppingCart();
-       expectedShoppingCart.setUser(expectedTestUser);
-       expectedShoppingCart.setId(1L);
+        ShoppingCart expectedShoppingCart = new ShoppingCart();
+        expectedShoppingCart.setUser(expectedTestUser);
+        expectedShoppingCart.setId(1L);
 
-       when(passwordEncoder.encode(anyString())).thenReturn("Secret : " + testUser.getPassword());
-       when(roleService.getByRoleName("USER")).thenReturn(mockUserRole);
-       when(userService.add(any())).thenReturn(expectedTestUser);
-       when(shoppingCartService.registerNewShoppingCart(testUser)).thenReturn(expectedShoppingCart);
+        when(passwordEncoder.encode(anyString())).thenReturn("Secret : " + testUser.getPassword());
+        when(roleService.getByRoleName("USER")).thenReturn(mockUserRole);
+        when(userService.add(any())).thenReturn(expectedTestUser);
+        when(shoppingCartService.registerNewShoppingCart(testUser)).thenReturn(expectedShoppingCart);
 
         User actualRegisteredUser = authenticationService.register(testUser.getEmail(), testUser.getPassword());
 

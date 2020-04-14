@@ -21,7 +21,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class CinemaHallServiceImplTest {
+public class CinemaHallServiceImplTest {
 
     private static List<CinemaHall> mockCinemaHallStorage;
     private static CinemaHall expectedMockFirstCinemaHall;
@@ -37,7 +37,7 @@ class CinemaHallServiceImplTest {
     private CinemaHallDao cinemaHallDao;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         mockCinemaHallStorage = new ArrayList<>();
 
         expectedMockFirstCinemaHall = new CinemaHall();
@@ -70,12 +70,12 @@ class CinemaHallServiceImplTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void getCinemaHalByIdOk() {
+    public void getCinemaHalByIdOk() {
         Long expectedCinemaHallId = 2L;
         when(cinemaHallDao.getById(anyLong())).thenReturn(mockCinemaHallStorage.stream()
                 .filter(cinemaHall -> cinemaHall.getId().equals(expectedCinemaHallId))
@@ -93,7 +93,7 @@ class CinemaHallServiceImplTest {
     }
 
     @Test
-    void getCinemaHallByNonexistentId() {
+    public void getCinemaHallByNonexistentId() {
         Long expectedCinemaHallId = 5L;
         when(cinemaHallDao.getById(anyLong())).thenReturn(mockCinemaHallStorage.stream()
                 .filter(cinemaHall -> cinemaHall.getId().equals(expectedCinemaHallId))
@@ -107,7 +107,7 @@ class CinemaHallServiceImplTest {
     }
 
     @Test
-    void addCinemaHallOk() {
+    public void addCinemaHallOk() {
         when(cinemaHallDao.add(testCinemaHall)).thenReturn(expectedCinemaHall);
 
         CinemaHall actualCinemaHall = cinemaHallService.add(testCinemaHall);
@@ -120,7 +120,7 @@ class CinemaHallServiceImplTest {
     }
 
     @Test
-    void getAllCinemaHallOk() {
+    public void getAllCinemaHallOk() {
         when(cinemaHallDao.getAll()).thenReturn(mockCinemaHallStorage);
 
         List<CinemaHall> actualCinemaHallStorage = cinemaHallService.getAll();
@@ -132,7 +132,7 @@ class CinemaHallServiceImplTest {
     }
 
     @Test
-    void getAllCinemaHallWithNonexistent() {
+    public void getAllCinemaHallWithNonexistent() {
         when(cinemaHallDao.getAll()).thenReturn(new ArrayList<CinemaHall>());
 
         List<CinemaHall> actualCinemaHallStorage = cinemaHallService.getAll();

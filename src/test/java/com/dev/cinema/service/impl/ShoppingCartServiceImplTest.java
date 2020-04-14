@@ -28,7 +28,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class ShoppingCartServiceImplTest {
+public class ShoppingCartServiceImplTest {
 
     private static ShoppingCart expectedMockShoppingCart;
     private static ShoppingCart expectedAfterUpdateMockShoppingCart;
@@ -47,7 +47,7 @@ class ShoppingCartServiceImplTest {
     private TicketDao ticketDao;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         mockUser = new User();
         mockUser.setId(1L);
         mockUser.setEmail("TestUser");
@@ -89,12 +89,12 @@ class ShoppingCartServiceImplTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void addSessionOk() {
+    public void addSessionOk() {
         when(shoppingCartDao.getByUser(any())).thenReturn(expectedMockShoppingCart);
         when(shoppingCartDao.update(any())).thenReturn(expectedAfterUpdateMockShoppingCart);
         when(ticketDao.add(any())).thenReturn(expectedTicket);
@@ -110,7 +110,7 @@ class ShoppingCartServiceImplTest {
     }
 
     @Test
-    void getByUserOk() {
+    public void getByUserOk() {
         when(shoppingCartDao.getByUser(mockUser)).thenReturn(mockShoppingCartStorage.stream()
                 .filter(shoppingCart -> shoppingCart.getUser().equals(mockUser))
                 .findFirst()
@@ -124,7 +124,7 @@ class ShoppingCartServiceImplTest {
     }
 
     @Test
-    void getByUserNonexistent() {
+    public void getByUserNonexistent() {
         User nonexistentUser = new User();
         when(shoppingCartDao.getByUser(nonexistentUser)).thenReturn(mockShoppingCartStorage.stream()
                 .filter(shoppingCart -> shoppingCart.getUser().equals(nonexistentUser))
@@ -135,7 +135,7 @@ class ShoppingCartServiceImplTest {
     }
 
     @Test
-    void registerNewShoppingCartOk() {
+    public void registerNewShoppingCartOk() {
         when(shoppingCartDao.add(any())).thenReturn(expectedMockShoppingCart);
 
         ShoppingCart actualShoppingCart = shoppingCartService.registerNewShoppingCart(mockUser);
@@ -147,7 +147,7 @@ class ShoppingCartServiceImplTest {
     }
 
     @Test
-    void clearOk() {
+    public void clearOk() {
         ShoppingCart expectedShoppingCart = new ShoppingCart();
         expectedShoppingCart.setId(expectedAfterUpdateMockShoppingCart.getId());
         expectedShoppingCart.setUser(expectedAfterUpdateMockShoppingCart.getUser());
@@ -161,7 +161,7 @@ class ShoppingCartServiceImplTest {
     }
 
     @Test
-    void getById() {
+    public void getById() {
         Long expectedId = 1L;
         when(shoppingCartDao.getById(anyLong())).thenReturn(mockShoppingCartStorage.stream()
                 .filter(shoppingCart -> shoppingCart.getId().equals(expectedId))
@@ -177,7 +177,7 @@ class ShoppingCartServiceImplTest {
     }
 
     @Test
-    void getByNonexistentId() {
+    public void getByNonexistentId() {
         Long expectedId = 2L;
         when(shoppingCartDao.getById(anyLong())).thenReturn(mockShoppingCartStorage.stream()
                 .filter(shoppingCart -> shoppingCart.getId().equals(expectedId))
