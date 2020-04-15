@@ -6,7 +6,6 @@ import com.dev.cinema.model.dto.response.MovieSessionResponseDto;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,20 +33,22 @@ public class MovieSessionController {
     }
 
     @PostMapping
-    public void addMovieSession(@RequestBody @Valid MovieSessionRequestDto movieSessionRequestDto) {
+    public MovieSessionResponseDto addMovieSession(@RequestBody @Valid MovieSessionRequestDto
+                                                           movieSessionRequestDto) {
         MovieSession movieSession = new MovieSession();
         movieSession.setMovie(movieService.getById(movieSessionRequestDto.getMovieId()));
         movieSession.setCinemaHall(cinemaHallService.getById(movieSessionRequestDto
                 .getCinemaHallId()));
         movieSession.setShowTime(LocalDateTime.parse(movieSessionRequestDto.getShowTime()));
-        movieSessionService.add(movieSession);
+        MovieSession addedMovieSession = movieSessionService.add(movieSession);
+        return getMovieSessionResponseDto(addedMovieSession);
     }
 
     @GetMapping("/available-sessions")
     public List<MovieSessionResponseDto> getAllAvailableSessions(
             @RequestParam Long movieId,
             @RequestParam String showTime) {
-        return movieSessionService.findAvailableSessions(movieId, LocalDate.parse(showTime))
+        return movieSessionService.findAvailableSessions(movieId, LocalDateTime.parse(showTime))
                 .stream()
                 .map(this::getMovieSessionResponseDto)
                 .collect(Collectors.toList());

@@ -2,6 +2,7 @@ package com.dev.cinema.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,7 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-class MovieServiceImplTest {
+public class MovieServiceImplTest {
 
     private static Movie firstMovie;
     private static Movie secondMovie;
@@ -34,7 +35,7 @@ class MovieServiceImplTest {
     private MovieDao movieDao;
 
     @BeforeAll
-    static void beforeAll() {
+    public static void beforeAll() {
         expectedMockMovie = new Movie();
         expectedMockMovie.setId(1L);
         expectedMockMovie.setTitle("Test");
@@ -66,22 +67,25 @@ class MovieServiceImplTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void addMovieOk() {
+    public void addMovieOk() {
         when(movieDao.add(testMovie)).thenReturn(expectedMockMovie);
 
         Movie addedMovie = movieService.add(testMovie);
 
+        verify(movieDao, times(1)).add(any());
+
         assertNotNull(addedMovie.getId());
+        assertEquals(Long.valueOf(1L), addedMovie.getId());
         assertEquals("Test", addedMovie.getTitle());
     }
 
     @Test
-    void getAllMoviesOk() {
+    public void getAllMoviesOk() {
         when(movieDao.getAll()).thenReturn(movieStorage);
 
         List<Movie> actualMoviesFromStorage = movieService.getAll();
@@ -95,12 +99,33 @@ class MovieServiceImplTest {
     }
 
     @Test
-    void getMovieByIdOk() {
-        when(movieDao.getById(1L)).thenReturn(movieStorage.get(0));
+    public void getMovieByIdOk() {
+        Long expectedMovieId = 1L;
+        when(movieDao.getById(expectedMovieId)).thenReturn(movieStorage.stream()
+                .filter(movie -> movie.getId().equals(expectedMovieId))
+                .findFirst()
+                .orElse(null));
 
-        Movie actualMovieById = movieService.getById(1L);
+        Movie actualMovieById = movieService.getById(expectedMovieId);
 
         verify(movieDao, times(1)).getById(any());
+
+        assertEquals(expectedMovieId, actualMovieById.getId());
         assertEquals(firstMovie, actualMovieById);
+    }
+
+    @Test
+    public void getMovieWithNonexistentId() {
+        Long testNonexistentMovieId = 5L;
+        when(movieDao.getById(testNonexistentMovieId)).thenReturn(movieStorage.stream()
+                .filter(movie -> movie.getId().equals(testNonexistentMovieId))
+                .findFirst()
+                .orElse(null));
+
+        Movie actualMovieById = movieService.getById(testNonexistentMovieId);
+
+        verify(movieDao, times(1)).getById(any());
+
+        assertNull(actualMovieById);
     }
 }
